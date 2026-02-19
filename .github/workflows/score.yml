@@ -1,0 +1,56 @@
+name: Score Submission
+on:
+  pull_request:
+    paths:
+      - 'submissions/*.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+   
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    environment: prod
+   
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('starter_code/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -r starter_code/requirements.txt
+
+      - name: Restore PEM key 
+        run: |
+         echo "${{ secrets.RIVATE_KEY }}" | base64 -d > $HOME/private_key.pem 
+         chmod 600 $HOME/private_key.pem
+
+      - name: Run scoring
+        run: python scoring_script.py submissions/submission.private.csv
+
+      - name: Run Update_leaderboard
+        run: python update_leaderboard.py
+
+      - name: Commit and push leaderboard changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add leaderboard.md
+          git diff --staged --quiet || git commit -m "chore: update leaderboard [skip ci]"
+          git push

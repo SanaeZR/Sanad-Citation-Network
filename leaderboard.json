@@ -1,0 +1,19 @@
+{
+  "last_updated": "2026-02-19T22:26:00.747089",
+  "submissions": [
+    {
+      "Submission": "sample_submission.private.csv",
+      "F1": 0.14669775135041327,
+      "Accuracy": 0.24354243542435425,
+      "Precision": 0.14690149447008635,
+      "timestamp": "2026-02-11 11:28"
+    },
+    {
+      "Submission": "submission.private.csv",
+      "F1": 0.8742327383988288,
+      "Accuracy": 0.879560219890055,
+      "Precision": 0.8752734035365144,
+      "timestamp": "2026-02-19 22:26"
+    }
+  ]
+}
