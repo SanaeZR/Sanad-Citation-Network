@@ -38,8 +38,8 @@ jobs:
 
       - name: Restore PEM key 
         run: |
-         echo "${{ secrets.PRIVATE_KEY }}" | base64 -d > $HOME/private_key.pem 
-         chmod 600 $HOME/private_key.pem
+         echo "${{ secrets.PRIVATE_KEY }}" | base64 -d > private_key.pem 
+         chmod 600 private_key.pem
 
       - name: Run scoring
         run: python scoring_script.py submissions/submission.private.csv
