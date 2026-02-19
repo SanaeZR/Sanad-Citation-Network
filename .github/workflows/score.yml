@@ -42,7 +42,7 @@ jobs:
          chmod 600 private_key.pem
 
       - name: Run scoring
-        run: python scoring_script.py submissions/submission.private.csv
+        run: python scoring_script.py submissions/submission.private.enc
 
       - name: Run Update_leaderboard
         run: python update_leaderboard.py
