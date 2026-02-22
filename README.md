@@ -1,5 +1,5 @@
 #  GNN Challenge: Paper Topic Prediction in Citation Networks
-## Challenge Overview
+## 1 Challenge Overview
 
 Welcome to **Sanad Citation Network Challenge!**
 This challenge focuses on node classification in a citation network using Graph Neural Networks (GNNs).
@@ -56,7 +56,7 @@ Deeper GNNs may degrade performance if not carefully designed.
 **No External Information**:
 Only graph structure and node features are allowed.
 
-## Dataset
+## 2 Dataset
 PubMed Citation Network Statistics
 |Property |Value|
 |---------|------------|
@@ -116,7 +116,7 @@ These files are hosted on Hugging Face and linked to this repository.
 
 Private files are used internally for scoring and leaderboard computation; they are not included in the repository.
 
-##  Workflow
+## 3 Workflow
 
 Data Processing: Load node features, adjacency information, and graph structure.
 
@@ -159,7 +159,7 @@ Baseline Performance
 | 2-layer GCN | ~78% |
 | Target | 80%+ |
 
-## Constraints
+## 4 Constraints
 
 **To ensure fairness and pedagogical value**:
 
@@ -228,7 +228,7 @@ class GCN(nn.Module):
 
 
 
-### Repository Structure
+## 6 Repository Structure
 
 ```
 gnn/
@@ -270,12 +270,12 @@ gnn/
 ├── README.md                         # Project overview and instructions
 └── .github/workflows/score.yml       # CI: auto-scores on PR submissions
 ```
-# Baseline Model (GCN) — Details
+## 7 Baseline Model (GCN) — Details
 Overview
 
 The script implements a Graph Convolutional Network (GCN) baseline for node classification on a graph dataset (in your example, the PubMed dataset). It handles data loading, training, evaluation, and test predictions, producing a CSV submission file. The design follows standard geometric deep learning practices.
 
-## 1. Data Input
+### 1. Data Input
 
 Dataset: Nodes represent entities (e.g., PubMed papers), edges represent connections (e.g., citation links).
 
@@ -285,7 +285,7 @@ Masks: Boolean masks for training, validation, and test splits.
 
 Data loader (PubMedDataLoader) loads all tensors (features, edges, labels) and moves them to GPU/CPU.
 
-## 2. Model Architecture
+### 2. Model Architecture
 
 GCN layers: Default 2 layers (num_layers=2), each using GCNConv.
 
@@ -307,7 +307,7 @@ Regularization: Dropout + weight decay
 
 Early stopping monitored via validation accuracy.
 
-## 3. Training & Evaluation
+### 3. Training & Evaluation
 
 Epoch loop:
 
@@ -327,13 +327,13 @@ Weighted F1
 
 Classification report per class
 
-## 4. Submission
+### 4. Submission
 
 After training, predictions on test nodes are saved in a CSV (submissions/submission.private.csv) with columns: node_id, target.
 
 Helper function save_submission_csv handles formatting and preview.
 
-## 5. Key Points / Features
+### 5. Key Points / Features
 
 Modular design: GCN class separated from data loading.
 
@@ -344,7 +344,7 @@ Configurable via CLI arguments (--hidden-channels, --num-layers, --dropout, --ep
 Provides detailed logs of loss, train/val accuracy, best epoch, and final test results.
 
 Ready for extension to other datasets or graph-level tasks.
-## Mental map of the GCN code
+### 6 Mental map of the GCN code
 ```
 features.pt  → initial embeddings (x)
 edges.pt     → adjacency matrix (edge_index)
@@ -361,7 +361,7 @@ final embedding
      ↓
 log_softmax → predictions
 ```
-# 🔐 Secure File Encryption (Hybrid RSA + AES)
+## 8 🔐 Secure File Encryption (Hybrid RSA + AES)
 
 To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
 
@@ -377,7 +377,7 @@ High performance (AES)
 
 Secure key exchange (RSA)
 
-# 🔑 How the Encryption Works
+## 9 🔑 How the Encryption Works
 
 When a file is encrypted:
 
@@ -393,7 +393,7 @@ The final encrypted file structure is:
 [RSA-encrypted AES key]
 [16 bytes IV]
 [AES-encrypted data]
-# 🔓 How Decryption Works
+## 10🔓 How Decryption Works
 
 During scoring, files are automatically decrypted using the private RSA key:
 
@@ -454,7 +454,7 @@ if submission_file.endswith(".enc"):
 
 Hidden test labels are also decrypted automatically if needed.
 
-# 🔐 Secure Key Handling in GitHub Actions
+## 11 🔐 Secure Key Handling in GitHub Actions
 
 The private RSA key is never stored in the repository.
 
@@ -484,7 +484,7 @@ File permissions are restricted (chmod 600)
 
 Encrypted files can safely be stored in the repository
 
-## References
+## 12 References
 
 - Kipf, T. N., & Welling, M. (2017). **Semi-Supervised Classification with Graph Convolutional Networks**. [arXiv:1609.02907](https://arxiv.org/abs/1609.02907)  
 - Official GitHub repository for the paper: [https://github.com/tkipf/pygcn](https://github.com/tkipf/pygcn)
