@@ -8,7 +8,7 @@
 5. [Repository Structure](#5-Repository-Structure)
 6. [Baseline Model GCN](#6-Baseline-Model—GCN)
 7. [Secure File Encryption (Hybrid RSA + AES)](#7-Secure-File-Encryption (Hybrid RSA + AES))
-8. [Repository Structure](#8-Repository-Structure)
+8. [How the Encryption Works](#8-How-the-Encryption-Works)
 9. [How Decryption Works](#9-How-Decryption-Works)
 10. [Secure Key Handling in GitHub Actions](#10-Secure-Key-Handling-in-GitHub-Actions)
 11. [References](#11-References)
