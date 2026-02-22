@@ -257,8 +257,7 @@ gnn/
 │
 ├── submissions/                      # Where submission CSV files go
 │   ├── submission.private.csv        # A submission file (gitignored)
-│   ├── sample_submission.private     # Sample submission (private)
-│   └── sample_submission.private.csv # Sample submission CSV (private)
+│   └── sample_submission.private.enc # Sample submission encripted (private)
 │
 ├── prepare_dataset.py                # Downloads PubMed and creates data/ structure
 ├── scoring_script.py                 # Scores a submission CSV against ground truth
