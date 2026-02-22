@@ -126,21 +126,22 @@ GCN model with hidden layers (ReLU + dropout)
 
 Output layer computes log softmax for node classification
 
-## Evaluation:
-
-Submissions are scored using the private test labels
-
-The scoring workflow uses Hugging Face to download the private files securely
-
-Private File Handling (Hugging Face)
-
-The private files are downloaded automatically using a Hugging Face token (HF_TOKEN) in the CI workflow:
-
-submission.private.csv → private submission for evaluation
-
-test_labels_hidden.private.pt → private labels for scoring
-
-This ensures reproducible evaluation while keeping sensitive data private.
+[prepare_dataset.py]  -->  data/raw/, data/splits/, data/processed/
+                                  |
+                                  v
+[starter_code/baseline.py]  -->  Train a GCN model  -->  results/best_model.pt
+                                                                |
+                                                                v
+[starter_code/generate_submission.py]  -->  submissions/submission.private.csv
+                                                      |
+                                                      v
+[scoring_script.py]  -->  Compare predictions vs hidden test labels  -->  leaderboard.json
+                                                                              |
+                                                                              v
+[update_leaderboard.py]  -->  leaderboard.md
+                                    |
+                                    v
+[.github/workflows/score.yml]  -->  Automates scoring on PRs
 
 ### Evaluation Metric
 | Metric                | Split            | Purpose                             | Definition                                                                                  |
@@ -344,6 +345,7 @@ Provides detailed logs of loss, train/val accuracy, best epoch, and final test r
 
 Ready for extension to other datasets or graph-level tasks.
 ## Mental map of the GCN code
+```
 features.pt  → initial embeddings (x)
 edges.pt     → adjacency matrix (edge_index)
 
@@ -358,7 +360,7 @@ GCNConv layer 2
 final embedding
      ↓
 log_softmax → predictions
-
+```
 # 🔐 Secure File Encryption (Hybrid RSA + AES)
 
 To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
