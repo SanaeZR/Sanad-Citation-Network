@@ -228,23 +228,46 @@ class GCN(nn.Module):
 
 
 ### Repository Structure
+
 ```
-gnn-challenge/
+gnn/
 ├── data/
-│   ├── raw/              # features.pt, edges.pt, labels.pt, metadata.json
-│   ├── splits/           # train_mask.pt, val_mask.pt, test_mask.pt
-│   └── processed/        # train_labels.pt, val_labels.pt, test_labels_hidden.private.pt
+│   ├── raw/                          # Raw graph data
+│   │   ├── features.pt               # Node feature matrix [19717, 500]
+│   │   ├── edges.pt                  # Edge index [2, 88648]
+│   │   ├── labels.pt                 # All node labels [19717]
+│   │   └── metadata.json             # Dataset metadata (counts, class names, etc.)
+│   │
+│   ├── splits/                       # Train/val/test masks
+│   │   ├── train_mask.pt             # Boolean mask: which nodes are training
+│   │   ├── val_mask.pt               # Boolean mask: which nodes are validation
+│   │   └── test_mask.pt              # Boolean mask: which nodes are test
+│   │
+│   ├── processed/                    # Processed label files
+│   │   ├── train_labels.pt           # Labels with -1 for non-training nodes
+│   │   ├── val_labels.pt             # Labels with -1 for non-validation nodes
+│   │   └── test_labels_hidden.private.pt     # Labels with -1 for non-test nodes (for scoring)
+│   │
+│   └── README.md                     # Data documentation
+│
 ├── starter_code/
-│   ├── baseline.py       # Baseline GCN training script
-│   ├── generate_submission.py  # Generate submission CSV from trained model
-│   └── requirements.txt  # Python dependencies
-├── submissions/          # Submission CSV files
-├── scoring_script.py     # Score a submission
-├── update_leaderboard.py # Update leaderboard.md from leaderboard.json
-├── prepare_dataset.py    # Script to regenerate the dataset
-├── leaderboard.json
-├── leaderboard.md
-└── README.md
+│   ├── baseline.py                   # GCN training script (PyTorch Geometric)
+│   ├── generate_submission.py        # Generate submission CSV from trained model
+│   └── requirements.txt              # Python dependencies (NEW - was missing)
+│
+├── submissions/                      # Where submission CSV files go
+│   ├── submission.private.csv        # A submission file (gitignored)
+│   ├── sample_submission.private     # Sample submission (private)
+│   └── sample_submission.private.csv # Sample submission CSV (private)
+│
+├── prepare_dataset.py                # Downloads PubMed and creates data/ structure
+├── scoring_script.py                 # Scores a submission CSV against ground truth
+├── update_leaderboard.py             # Generates leaderboard.md from leaderboard.json
+├── leaderboard.json                  # Machine-readable leaderboard data
+├── leaderboard.md                    # Human-readable leaderboard table
+├── Leaderboard.html                  # HTML version of leaderboard
+├── README.md                         # Project overview and instructions
+└── .github/workflows/score.yml       # CI: auto-scores on PR submissions
 ```
 # Baseline Model (GCN) — Details
 Overview
