@@ -199,32 +199,6 @@ python starter_code/generate_submission.py --model-path results/best_model.pt
 python scoring_script.py submissions/submission.private.csv
 ```
 
-## Starter Model (GCN Baseline)
-
-```python
-import torch.nn as nn
-import torch.nn.functional as F
-from torch_geometric.nn import GCNConv
-
-class GCN(nn.Module):
-    def __init__(self, num_features, hidden_channels, num_classes, num_layers=2, dropout=0.5):
-        super(GCN, self).__init__()
-        self.convs = nn.ModuleList()
-        self.convs.append(GCNConv(num_features, hidden_channels))
-        for _ in range(num_layers - 2):
-            self.convs.append(GCNConv(hidden_channels, hidden_channels))
-        self.convs.append(GCNConv(hidden_channels, num_classes))
-        self.dropout = dropout
-        self.num_layers = num_layers
-
-    def forward(self, x, edge_index):
-        for i in range(self.num_layers - 1):
-            x = self.convs[i](x, edge_index)
-            x = F.relu(x)
-            x = F.dropout(x, p=self.dropout, training=self.training)
-        x = self.convs[-1](x, edge_index)
-        return F.log_softmax(x, dim=1)
-```
 
 
 
@@ -274,6 +248,7 @@ gnn/
 Overview
 
 The script implements a Graph Convolutional Network (GCN) baseline for node classification on a graph dataset (in your example, the PubMed dataset). It handles data loading, training, evaluation, and test predictions, producing a CSV submission file. The design follows standard geometric deep learning practices.
+
 
 ### 1. Data Input
 
@@ -361,6 +336,34 @@ final embedding
      ↓
 log_softmax → predictions
 ```
+
+### 7 Starter Model (GCN Baseline)
+
+```python
+import torch.nn as nn
+import torch.nn.functional as F
+from torch_geometric.nn import GCNConv
+
+class GCN(nn.Module):
+    def __init__(self, num_features, hidden_channels, num_classes, num_layers=2, dropout=0.5):
+        super(GCN, self).__init__()
+        self.convs = nn.ModuleList()
+        self.convs.append(GCNConv(num_features, hidden_channels))
+        for _ in range(num_layers - 2):
+            self.convs.append(GCNConv(hidden_channels, hidden_channels))
+        self.convs.append(GCNConv(hidden_channels, num_classes))
+        self.dropout = dropout
+        self.num_layers = num_layers
+
+    def forward(self, x, edge_index):
+        for i in range(self.num_layers - 1):
+            x = self.convs[i](x, edge_index)
+            x = F.relu(x)
+            x = F.dropout(x, p=self.dropout, training=self.training)
+        x = self.convs[-1](x, edge_index)
+        return F.log_softmax(x, dim=1)
+```
+
 ## 8 🔐 Secure File Encryption (Hybrid RSA + AES)
 
 To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
@@ -393,6 +396,7 @@ The final encrypted file structure is:
 [RSA-encrypted AES key]
 [16 bytes IV]
 [AES-encrypted data]
+
 ## 10🔓 How Decryption Works
 
 During scoring, files are automatically decrypted using the private RSA key:
@@ -437,7 +441,7 @@ def decrypt_file_rsa_aes(input_file, output_file, private_key_file):
         f.write(decrypted_data)
 
     print(f"Decrypted {input_file} → {output_file}")
-🧠 Automatic Decryption During Scoring
+### 🧠 Automatic Decryption During Scoring
 
 When running:
 
