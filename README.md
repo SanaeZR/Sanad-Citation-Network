@@ -251,7 +251,7 @@ Overview
 
 The script implements a Graph Convolutional Network (GCN) baseline for node classification on a graph dataset (in your example, the PubMed dataset). It handles data loading, training, evaluation, and test predictions, producing a CSV submission file. The design follows standard geometric deep learning practices.
 
-1. Data Input
+## 1. Data Input
 
 Dataset: Nodes represent entities (e.g., PubMed papers), edges represent connections (e.g., citation links).
 
@@ -261,7 +261,7 @@ Masks: Boolean masks for training, validation, and test splits.
 
 Data loader (PubMedDataLoader) loads all tensors (features, edges, labels) and moves them to GPU/CPU.
 
-2. Model Architecture
+## 2. Model Architecture
 
 GCN layers: Default 2 layers (num_layers=2), each using GCNConv.
 
@@ -283,7 +283,7 @@ Regularization: Dropout + weight decay
 
 Early stopping monitored via validation accuracy.
 
-3. Training & Evaluation
+## 3. Training & Evaluation
 
 Epoch loop:
 
@@ -303,13 +303,13 @@ Weighted F1
 
 Classification report per class
 
-4. Submission
+## 4. Submission
 
 After training, predictions on test nodes are saved in a CSV (submissions/submission.private.csv) with columns: node_id, target.
 
 Helper function save_submission_csv handles formatting and preview.
 
-5. Key Points / Features
+## 5. Key Points / Features
 
 Modular design: GCN class separated from data loading.
 
@@ -336,6 +336,128 @@ final embedding
      ↓
 log_softmax → predictions
 
+# 🔐 Secure File Encryption (Hybrid RSA + AES)
+
+To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
+
+Why Hybrid Encryption?
+
+AES (Advanced Encryption Standard) → Fast and efficient for encrypting large files.
+
+RSA (Asymmetric Encryption) → Securely encrypts the AES key.
+
+Combining both provides:
+
+High performance (AES)
+
+Secure key exchange (RSA)
+
+# 🔑 How the Encryption Works
+
+When a file is encrypted:
+
+A random AES key is generated.
+
+The file is encrypted using AES (CBC mode).
+
+The AES key is encrypted using RSA (OAEP + SHA256).
+
+The final encrypted file structure is:
+
+[4 bytes: RSA key length]
+[RSA-encrypted AES key]
+[16 bytes IV]
+[AES-encrypted data]
+# 🔓 How Decryption Works
+
+During scoring, files are automatically decrypted using the private RSA key:
+
+def decrypt_file_rsa_aes(input_file, output_file, private_key_file):
+    """Decrypt a file that was encrypted with hybrid AES + RSA."""
+    with open(private_key_file, "rb") as f:
+        private_key = serialization.load_pem_private_key(f.read(), password=None)
+
+    with open(input_file, "rb") as f:
+        # Read length of RSA-encrypted AES key
+        key_len_bytes = f.read(4)
+        key_len = int.from_bytes(key_len_bytes, "big")
+
+        # Read RSA-encrypted AES key
+        encrypted_aes_key = f.read(key_len)
+
+        # Decrypt AES key using RSA
+        aes_key = private_key.decrypt(
+            encrypted_aes_key,
+            asym_padding.OAEP(
+                mgf=asym_padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+
+        # Read IV and encrypted content
+        iv = f.read(16)
+        encrypted_data = f.read()
+
+    # AES decryption
+    cipher = Cipher(algorithms.AES(aes_key), modes.CBC(iv), backend=default_backend())
+    decryptor = cipher.decryptor()
+    decrypted_padded = decryptor.update(encrypted_data) + decryptor.finalize()
+
+    # Remove PKCS7 padding
+    unpadder = padding.PKCS7(128).unpadder()
+    decrypted_data = unpadder.update(decrypted_padded) + unpadder.finalize()
+
+    with open(output_file, "wb") as f:
+        f.write(decrypted_data)
+
+    print(f"Decrypted {input_file} → {output_file}")
+🧠 Automatic Decryption During Scoring
+
+When running:
+
+python scoring_script.py submissions/file.csv
+
+The script automatically detects encrypted files (.enc) and decrypts them before evaluation:
+
+submission_file = sys.argv[1]
+
+if submission_file.endswith(".enc"):
+    decrypted_submission = submission_file.replace(".enc", ".csv")
+    decrypt_file_rsa_aes(submission_file, decrypted_submission, "private_key.pem")
+    submission_file = decrypted_submission
+
+Hidden test labels are also decrypted automatically if needed.
+
+# 🔐 Secure Key Handling in GitHub Actions
+
+The private RSA key is never stored in the repository.
+
+Instead:
+
+The private key is stored as a GitHub Secret (PRIVATE_KEY)
+
+It is Base64-encoded
+
+It is restored during CI execution
+
+GitHub Actions Workflow
+- name: Restore PEM key
+  run: |
+    echo "${{ secrets.PRIVATE_KEY }}" | base64 -d > private_key.pem
+    chmod 600 private_key.pem
+
+- name: Run scoring
+  run: python scoring_script.py submissions/submission.private.enc
+Why This Is Secure
+
+The private key exists only during CI execution
+
+It is never committed to GitHub
+
+File permissions are restricted (chmod 600)
+
+Encrypted files can safely be stored in the repository
 
 ## References
 
