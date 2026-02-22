@@ -1,4 +1,7 @@
 #  GNN Challenge: Paper Topic Prediction in Citation Networks
+
+[View Laderboard](../Leaderboard.html)
+
 ## Table of Contents
 
 1. [Challenge Overview](#1-Challenge-Overview)
