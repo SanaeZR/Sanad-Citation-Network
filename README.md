@@ -1,4 +1,4 @@
-#  GNN Challenge: Paper Topic Prediction in Citation Networks
+#  Sanad-Citation-Network: Paper Topic Prediction in Citation Networks
 
 [View Laderboard](../Leaderboard.html)
 
