@@ -246,6 +246,7 @@ gnn/
 │   ├── processed/                    # Processed label files
 │   │   ├── train_labels.pt           # Labels with -1 for non-training nodes
 │   │   ├── val_labels.pt             # Labels with -1 for non-validation nodes
+|   |   ├── test_labels_hidden.enc       # Label with -1 for non-test nodes encripted (for scoring)
 │   │   └── test_labels_hidden.private.pt     # Labels with -1 for non-test nodes (for scoring)
 │   │
 │   └── README.md                     # Data documentation
