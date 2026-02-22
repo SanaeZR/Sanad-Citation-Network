@@ -6,7 +6,7 @@
 3. [Workflow](#3-Workflow)
 4. [Constraints](#4-Constraints)
 5. [Repository Structure](#5-Repository-Structure)
-6. [Baseline Model (GCN) — Details](#6-Baseline-Model—Details)
+6. [Baseline Model GCN](#6-Baseline-Model—GCN)
 7. [Secure File Encryption (Hybrid RSA + AES)](#7-Secure-File-Encryption (Hybrid RSA + AES))
 8. [Repository Structure](#8-Repository-Structure)
 9. [How Decryption Works](#9-How-Decryption-Works)
@@ -259,7 +259,7 @@ gnn/
 ├── README.md                         # Project overview and instructions
 └── .github/workflows/score.yml       # CI: auto-scores on PR submissions
 ```
-## 6 Baseline Model (GCN) — Details
+## 6 Baseline Model GCN 
 Overview
 
 The script implements a Graph Convolutional Network (GCN) baseline for node classification on a graph dataset (in your example, the PubMed dataset). It handles data loading, training, evaluation, and test predictions, producing a CSV submission file. The design follows standard geometric deep learning practices.
@@ -379,7 +379,7 @@ class GCN(nn.Module):
         return F.log_softmax(x, dim=1)
 ```
 
-## 7 🔐 Secure File Encryption (Hybrid RSA + AES)
+## 7  Secure File Encryption (Hybrid RSA + AES)
 
 To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
 
@@ -395,7 +395,7 @@ High performance (AES)
 
 Secure key exchange (RSA)
 
-## 8 🔑 How the Encryption Works
+## 8 How the Encryption Works
 
 When a file is encrypted:
 
