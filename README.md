@@ -6,7 +6,7 @@
 3. [Workflow](#3-Workflow)
 4. [Constraints](#4-Constraints)
 5. [Repository Structure](#5-Repository-Structure)
-6. [Baseline Model GCN](#6-Baseline-Model—GCN)
+6. [Baseline Model GCN](#6-Baseline-Model-GCN)
 7. [Secure File Encryption (Hybrid RSA + AES)](#7-Secure-File-Encryption (Hybrid RSA + AES))
 8. [How the Encryption Works](#8-How-the-Encryption-Works)
 9. [How Decryption Works](#9-How-Decryption-Works)
