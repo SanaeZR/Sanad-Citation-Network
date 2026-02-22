@@ -5,14 +5,13 @@
 2. [Dataset](#2-Dataset)
 3. [Workflow](#3-Workflow)
 4. [Constraints](#4-Constraints)
-5. [Step-by-Step Changes Made](#5-step-by-step-changes-made)
-6. [Repository Structure](#6-Repository-Structure)
-7. [Baseline Model (GCN) — Details](#7-Baseline-Model—Details)
-8. [Secure File Encryption (Hybrid RSA + AES)](#8-Secure-File-Encryption (Hybrid RSA + AES))
-9. [Repository Structure](#19-Repository-Structure)
-10. [How Decryption Works](#10-How-Decryption-Works)
-11. [Secure Key Handling in GitHub Actions](#11-Secure-Key-Handling-in-GitHub-Actions)
-12. [ References](#12-References)
+5. [Repository Structure](#6-Repository-Structure)
+6. [Baseline Model (GCN) — Details](#7-Baseline-Model—Details)
+7. [Secure File Encryption (Hybrid RSA + AES)](#8-Secure-File-Encryption (Hybrid RSA + AES))
+8. [Repository Structure](#19-Repository-Structure)
+9. [How Decryption Works](#10-How-Decryption-Works)
+10. [Secure Key Handling in GitHub Actions](#11-Secure-Key-Handling-in-GitHub-Actions)
+11. [ References](#12-References)
 ---
 
 ## 1 Challenge Overview
@@ -218,7 +217,7 @@ python scoring_script.py submissions/submission.private.csv
 
 
 
-## 6 Repository Structure
+## 5 Repository Structure
 
 ```
 gnn/
@@ -260,7 +259,7 @@ gnn/
 ├── README.md                         # Project overview and instructions
 └── .github/workflows/score.yml       # CI: auto-scores on PR submissions
 ```
-## 7 Baseline Model (GCN) — Details
+## 6 Baseline Model (GCN) — Details
 Overview
 
 The script implements a Graph Convolutional Network (GCN) baseline for node classification on a graph dataset (in your example, the PubMed dataset). It handles data loading, training, evaluation, and test predictions, producing a CSV submission file. The design follows standard geometric deep learning practices.
@@ -380,7 +379,7 @@ class GCN(nn.Module):
         return F.log_softmax(x, dim=1)
 ```
 
-## 8 🔐 Secure File Encryption (Hybrid RSA + AES)
+## 7 🔐 Secure File Encryption (Hybrid RSA + AES)
 
 To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
 
@@ -396,7 +395,7 @@ High performance (AES)
 
 Secure key exchange (RSA)
 
-## 9 🔑 How the Encryption Works
+## 8 🔑 How the Encryption Works
 
 When a file is encrypted:
 
@@ -413,7 +412,7 @@ The final encrypted file structure is:
 [16 bytes IV]
 [AES-encrypted data]
 
-## 10🔓 How Decryption Works
+## 9 How Decryption Works
 
 During scoring, files are automatically decrypted using the private RSA key:
 
@@ -474,7 +473,7 @@ if submission_file.endswith(".enc"):
 
 Hidden test labels are also decrypted automatically if needed.
 
-## 11 🔐 Secure Key Handling in GitHub Actions
+## 10 Secure Key Handling in GitHub Actions
 
 The private RSA key is never stored in the repository.
 
@@ -504,7 +503,7 @@ File permissions are restricted (chmod 600)
 
 Encrypted files can safely be stored in the repository
 
-## 12 References
+## 11 References
 
 - Kipf, T. N., & Welling, M. (2017). **Semi-Supervised Classification with Graph Convolutional Networks**. [arXiv:1609.02907](https://arxiv.org/abs/1609.02907)  
 - Official GitHub repository for the paper: [https://github.com/tkipf/pygcn](https://github.com/tkipf/pygcn)
