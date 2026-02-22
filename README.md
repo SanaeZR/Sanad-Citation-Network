@@ -379,7 +379,7 @@ class GCN(nn.Module):
         return F.log_softmax(x, dim=1)
 ```
 
-## 7  Secure File Encryption Hybrid RSA AES
+## 7 Secure File Encryption Hybrid RSA AES
 
 To ensure privacy and prevent unauthorized access to hidden labels and private submissions, this repository uses hybrid encryption combining AES and RSA.
 
