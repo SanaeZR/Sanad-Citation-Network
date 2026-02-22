@@ -5,13 +5,13 @@
 2. [Dataset](#2-Dataset)
 3. [Workflow](#3-Workflow)
 4. [Constraints](#4-Constraints)
-5. [Repository Structure](#6-Repository-Structure)
-6. [Baseline Model (GCN) — Details](#7-Baseline-Model—Details)
-7. [Secure File Encryption (Hybrid RSA + AES)](#8-Secure-File-Encryption (Hybrid RSA + AES))
-8. [Repository Structure](#19-Repository-Structure)
-9. [How Decryption Works](#10-How-Decryption-Works)
-10. [Secure Key Handling in GitHub Actions](#11-Secure-Key-Handling-in-GitHub-Actions)
-11. [ References](#12-References)
+5. [Repository Structure](#5-Repository-Structure)
+6. [Baseline Model (GCN) — Details](#6-Baseline-Model—Details)
+7. [Secure File Encryption (Hybrid RSA + AES)](#7-Secure-File-Encryption (Hybrid RSA + AES))
+8. [Repository Structure](#8-Repository-Structure)
+9. [How Decryption Works](#9-How-Decryption-Works)
+10. [Secure Key Handling in GitHub Actions](#10-Secure-Key-Handling-in-GitHub-Actions)
+11. [References](#11-References)
 ---
 
 ## 1 Challenge Overview
