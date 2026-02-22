@@ -1,4 +1,20 @@
 #  GNN Challenge: Paper Topic Prediction in Citation Networks
+## Table of Contents
+
+1. [Challenge Overview](#1-Challenge-Overview)
+2. [Dataset](#2-Dataset)
+3. [Workflow](#3-Workflow)
+4. [Constraints](#4-Constraints)
+5. [Step-by-Step Changes Made](#5-step-by-step-changes-made)
+6. [Repository Structure](#6-Repository-Structure)
+7. [Baseline Model (GCN) — Details](#7-Baseline-Model—Details)
+8. [Secure File Encryption (Hybrid RSA + AES)](#8-Secure-File-Encryption (Hybrid RSA + AES))
+9. [Repository Structure](#19-Repository-Structure)
+10. [How Decryption Works](#10-How-Decryption-Works)
+11. [Secure Key Handling in GitHub Actions](#11-Secure-Key-Handling-in-GitHub-Actions)
+12. [ References](#12-References)
+---
+
 ## 1 Challenge Overview
 
 Welcome to **Sanad Citation Network Challenge!**
