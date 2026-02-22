@@ -260,7 +260,7 @@ gnn/
 └── .github/workflows/score.yml       # CI: auto-scores on PR submissions
 ```
 ## 6 Baseline Model GCN 
-Overview
+### Overview
 
 The script implements a Graph Convolutional Network (GCN) baseline for node classification on a graph dataset (in your example, the PubMed dataset). It handles data loading, training, evaluation, and test predictions, producing a CSV submission file. The design follows standard geometric deep learning practices.
 
