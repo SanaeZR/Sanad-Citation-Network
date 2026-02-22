@@ -1,6 +1,6 @@
 #  Sanad-Citation-Network: Paper Topic Prediction in Citation Networks
 
-[View Laderboard](../Leaderboard.html)
+[View Laderboard](./Leaderboard.html)
 
 ## Table of Contents
 
